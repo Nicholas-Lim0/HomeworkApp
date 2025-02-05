@@ -41,7 +41,7 @@ export const FormDropdown = (props: {name: any, data: any, inputfunc: any}) => {
   );
 }
 
-export const DateForm = (props: {name: any, dayfunc: any, monthfunc: any, monthnamefunc: any, datetypefunc: any}) => {
+export const DateForm = (props: {name: any, dayfunc: any, monthfunc: any, yearfunc: any, monthnamefunc: any, datetypefunc: any}) => {
   const [monthType, setMonthType] = useState("Month Number");
 
   return(
@@ -84,17 +84,17 @@ export const DateForm = (props: {name: any, dayfunc: any, monthfunc: any, monthn
             <TextInput style={{...styles.textinput, width: 100, height: 35, borderRadius: 5}} keyboardType={"numeric"} maxLength={2} onChangeText={props.monthfunc} />
           </View>
 
-          <View style={monthType == "Month Name" ? styles.datecontainer : {display: "none"}}>
+          <View style={monthType == "Month Name" ? {...styles.datecontainer, marginBottom: 10,} : {display: "none"}}>
             <Text style={styles.datetitle}>Month: </Text>
             <SelectDropdown
-            dropdownStyle={{...styles.dropdown, marginTop: -15, height: 200}}
+            dropdownStyle={{...styles.dropdown, height: 200}}
             data={["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]}
             onSelect={props.monthnamefunc}
             renderButton={(selected_item, opened) => {
               return(
                   <View style={styles.month_dropdown}>
                     <Text style={{fontSize: 18, fontWeight: "semibold"}}> {selected_item ? selected_item : "Choose month"} </Text>
-                    <Icon name={opened ? "chevron-down" : "chevron-up"} style={{...styles.icon, position: "absolute", left: 180, top: 2,}} />
+                    <Icon name={opened ? "chevron-down" : "chevron-up"} style={{...styles.icon, position: "absolute", left: 180, top: 2}} />
                   </View>
               );
             }}
@@ -106,9 +106,14 @@ export const DateForm = (props: {name: any, dayfunc: any, monthfunc: any, monthn
               )
             }}
             showsVerticalScrollIndicator={false}
-          />
-
+            />
           </View>
+
+          <View style={styles.datecontainer}>
+            <Text style={styles.datetitle}> Year: </Text>
+            <TextInput style={{...styles.textinput, width: 100, height: 35, borderRadius: 5}} keyboardType={"numeric"} maxLength={4} onChangeText={props.yearfunc} />
+          </View>
+
         </View>
     </View>
   );

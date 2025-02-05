@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Button, ScrollView, Alert } from "react-native";
 import { AddButton } from "@/components/AddButton";
 import { AssignmentMenu } from "@/components/AssignmentMenu";
-import { assignments, reset_ass, delete_ass } from "../amaker";
+import { assignments, delete_ass } from "../amaker";
 
 const alist = () => {
     const [assState, setAssState] = useState(assignments);

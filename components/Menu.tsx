@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Alert, Pressable } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons"
 import SelectDropdown from "react-native-select-dropdown";
-import { reset_ass } from "@/app/amaker";
+import { reset_ass, sort_ass } from "@/app/amaker";
 import { reset_class } from "@/app/cmaker";
 
 export const Menu = (props: {filter_func: any, delete_func: any}) => {
@@ -37,7 +37,10 @@ export const Menu = (props: {filter_func: any, delete_func: any}) => {
             defaultValueByIndex={0}
             dropdownStyle={styles.dropdown}
             data={filter_options}
-            onSelect={(item) => {filter_option = item.title}}
+            onSelect={(item) => {
+                filter_option = item.title
+                sort_ass(filter_option);
+            }}
             renderButton={() => {
                 return(
                     <>

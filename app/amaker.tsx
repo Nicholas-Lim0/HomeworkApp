@@ -4,6 +4,7 @@ import { Link } from "expo-router";
 import { FormElement, FormDropdown, DateForm } from "@/components/FormElement";
 import { class_list } from "./cmaker";
 import { filter_option } from "@/components/Menu";
+import { sort_by_due_dates } from "@/functions/filter_funcs";
 
 const amaker = () => {
   const [classes, setClasses] = useState<Array<String>>([]);
@@ -15,6 +16,7 @@ const amaker = () => {
   let day = "";
   let month = "";
   let date = "";
+  let year = "";
   let datetype = "Month Number";
 
   return(
@@ -22,12 +24,13 @@ const amaker = () => {
       <ScrollView>
         <FormElement name="Assignment Name" inputfunc={(newText: any) => {setName(newText)}}></FormElement>
         <FormDropdown name="Class" data={class_list} inputfunc={setClass}></FormDropdown>
-        <DateForm name="Due Date" dayfunc={(newText: any) => {day = newText;}} monthfunc={(newText: any) => {month = newText;}} monthnamefunc={(item: any) => {month = item}} datetypefunc={(item: any) => {datetype = item}} />
+        <DateForm name="Due Date" dayfunc={(newText: any) => {day = newText;}} monthfunc={(newText: any) => {month = newText;}} yearfunc={(newText: any) => {year = newText}} monthnamefunc={(item: any) => {month = item}} datetypefunc={(item: any) => {datetype = item}} />
         <View style={styles.othercontainer}>
           <Link href="./alist" asChild>
             <Button title="Enter" color="slategrey" onPress={() => {
               // Combine month and day to format date
-              date = (datetype == "Month Number" ? `${month}/${day}` : `${month} ${day}`);
+              let month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octomber", "November", "December"];
+              date = (datetype == "Month Number" ? `${month}/${day}/${year}` : `${month} ${day}, ${year}`);
 
               let new_ass = {
                 a_name: name,
@@ -95,50 +98,31 @@ const styles = StyleSheet.create({
   }
 });
 
-function sort_ass(type: any) {
+// Exports
+export function sort_ass(type: any) {
   let filtered_ass = [];
 
   if (type == "Creation") {
     // OH shit
   } else if (type == "Due Date") {
-    /*
-      *** INPUT FUNCTION TO SORT DATES ***
-      let dates = [];
-      
-      // Place all dates into an array
-      for (let i = 0; i < assignments.length; i++) {
-        let date = Object.values(assignments[i])[2];
-        // Turn month names into nums
-        dates.push(date);
-      }
+    let dates = [];
 
-      // Sort array based on dates
-      for (let i = 0; i < dates.length; i++) {
-        let selected = dates[i];
-        let minimum = dates[i + 1];
+    for (let i = 0; i < assignments.length; i++) {
+      dates.push(Object.values(assignments[i])[2]);
+    }
 
-        // Get minimum value after selected date
-        for (let i = selected + 1; i < dates.length; i++) {
-          if (dates[i] < minimum) {
-            minimum = dates[i];
-          }
-        }
-
-        // Swap values if minimum value less than selected date
-        if (minimum < selected) {
-          [selected, minimum] = [minimum, selected];
-        }
-      }
-        */
-
+    filtered_ass = sort_by_due_dates(dates);
   } else if (type == "Class") {
     // Sort by class :( ?
   } else {
     Alert.alert("ya done did messed up");
   }
+  
+  if (filtered_ass) {
+    assignments = filtered_ass;
+  }
 }
 
-// Exports
 export let assignments: Array<Object> = [];
 
 export function reset_ass() {
