@@ -1,147 +1,117 @@
-import { Alert } from "react-native";
+import React from "react";
 
-// MAKE THIS WORK WITH OBJECTS (ASSIGNMENTS LIST)
-export function sort_by_due_dates(dates: any) {
+export default function sort_by_due_date(dates: any) {
+    // 11/12 November 12, 2025
     // Convert alphabetical dates into numerical dates
-    let month_numbers = ["January", "Ferbuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let month_numbers = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     for (let i = 0; i < dates.length; i++) {
         let date = dates[i];
         if (isNaN(date[0])) {
             date = date.split(" ");
-            let month: any = month_numbers.indexOf(date[0]);
-            let day = date[1][0]
+            let month: any = month_numbers.indexOf(date[0]) + 1;
+            let day = date[1].slice(0, date[1].indexOf(","));
             let year = date[2];
             
             // Add zeros to days/months if single-digit
             if (Number(month) < 10) { month = "0" + month }
             if (Number(day) < 10) { day = "0" + day }
             
-            let format_date = `${month}/${day}/${year}`;
+            let format_date = `${month}/${day}/${year} `;
             
             dates[i] = format_date;
         }
     }
     
-    let new_dates = [];
-    let years = [];
-    let months = [];
-    let days = [];
-    let output = [];
-    
-    // Sort dates into years with ids
+    // *****Sort years in ascending order*****
     for (let i = 0; i < dates.length; i++) {
         let selected = dates[i];
-        let year = selected.substring(selected.lastIndexOf("/") + 1);
-        
-        let year_id = {
-            year_num: Number(year),
-            date: dates[i]
-        }
-        years.push(year_id);
-    }
-    
-    // Sort years in ascending order
-    for (let i = 0; i < years.length; i++) {
-        let selected = years[i];
         let minimum = selected;
         
         // Iterate through remaining elements
-        for (let j = i + 1; j < years.length; j++) {
-            let day_num = years[j].date.slice(0, years[j].date.indexOf("/"));
+        for (let j = i + 1; j < dates.length; j++) {
+            let minimum_year = minimum.slice(minimum.lastIndexOf("/") + 1).trim();
+            let next = dates[j];
+            let next_year = next.slice(next.lastIndexOf("/") + 1).trim();
             
-            if (years[j].year_num < minimum.year_num) {
-                minimum = years[j];
+            if (next_year < minimum_year) {
+                minimum = dates[j];
             }
         }
         
-        let index = years.indexOf(minimum);
+        let index = dates.indexOf(minimum);
         
         if (selected !== minimum) {
-            [years[i], years[index]] = [years[index], years[i]];
+            [dates[i], dates[index]] = [dates[index], dates[i]];
         }
     }
     
-    // Make new output match with sorted eyars
-    for (let i = 0; i < years.length; i++) {
-        new_dates.push(years[i].date);
-    }
-    
-    // Sort dates into days with ids
-    for (let i = 0; i < new_dates.length; i++) {
-        let selected = new_dates[i];
-        let day = selected.substring(selected.indexOf("/") + 1);
-        
-        let day_id = {
-            day_num: Number(day),
-            date: new_dates[i]
-        }
-        days.push(day_id);
-    }
-    
-    // Sort days if months are same in ascending order
-    for (let i = 0; i < days.length; i++) {
-        let selected = days[i];
+    // *****Sort months in ascending order if year is same*****
+    for (let i = 0; i < dates.length; i++) {
+        let selected = dates[i];
         let minimum = selected;
-        let minimum_month = minimum.date.slice(0, minimum.date.indexOf("/"));
         
         // Iterate through remaining elements
-        for (let j = i + 1; j < days.length; j++) {
-            let month_num = days[j].date.slice(0, days[j].date.indexOf("/"));
+        for (let j = i + 1; j < dates.length; j++) {
+            let minimum_month = minimum.slice(0, minimum.indexOf("/"));
+            let minimum_year = minimum.slice(minimum.lastIndexOf("/") + 1).trim();
+            let next = dates[j];
+            let next_month = next.slice(0, next.indexOf("/"));
+            let next_year = next.slice(next.lastIndexOf("/") + 1).trim();
             
-            if (days[j].day_num < minimum.day_num && month_num == minimum_month) {
-                minimum = days[j];
+            if (next_month < minimum_month && next_year == minimum_year) {
+                minimum = dates[j];
             }
         }
         
-        let index = days.indexOf(minimum);
+        let index = dates.indexOf(minimum);
         
         if (selected !== minimum) {
-            [days[i], days[index]] = [days[index], days[i]];
+            [dates[i], dates[index]] = [dates[index], dates[i]];
         }
     }
     
-    // Make new dates match with sorted days
-    new_dates = [];
-    for (let i = 0; i < days.length; i++) {
-        new_dates.push(days[i].date);
-    }
-    
-    // Sort dates into months with ids
-    for (let i = 0; i < new_dates.length; i++) {
-        let selected = new_dates[i];
-        let month = selected.substring(0, selected.indexOf("/"));
-        
-        let month_id = {
-            month_num: Number(month),
-            date: new_dates[i]
-        }
-        months.push(month_id);
-    }
-    
-    // Sort months in ascending order
-    for (let i = 0; i < months.length; i++) {
-        let selected = months[i];
+    // *****Sort days in ascending order if month is same*****
+    for (let i = 0; i < dates.length; i++) {
+        let selected = dates[i];
         let minimum = selected;
-        let selected_year = selected.date.substring(selected.date.lastIndexOf("/") + 1);
+        let minimum_day = minimum.slice(minimum.indexOf("/") + 1, minimum.lastIndexOf("/"));
+        let minimum_month = minimum.slice(0, minimum.indexOf("/"));
         
         // Iterate through remaining elements
-        for (let j = i + 1; j < months.length; j++) {
-            if (months[j].month_num < minimum.month_num && selected_year > minimum.date.substring(minimum.date.lastIndexOf("/") + 1)) {
-                minimum = months[j];
-            } 
+        for (let j = i + 1; j < dates.length; j++) {
+            let next = dates[j];
+            let next_day = next.slice(next.indexOf("/") + 1, next.lastIndexOf("/"));
+            let next_month = next.slice(0, next.indexOf("/"));
+            
+            if (next_day < minimum_day && next_month == minimum_month) {
+                minimum = dates[j];
+                minimum_day = next_day;
+                minimum_month = next_month;
+            }
         }
         
+        let index = dates.indexOf(minimum);
+        
         if (selected !== minimum) {
-            let index = months.indexOf(minimum);
-            [months[i], months[index]] = [months[index], months[i]];
+            [dates[i], dates[index]] = [dates[index], dates[i]];
         }
     }
     
-    // Make new dates match with sorted months
-    for (let i = 0; i < months.length; i++) {
-        output.push(months[i].date);
+    // *****Numericize alphabetical dates
+    for (let i = 0; i < dates.length; i++) {
+        let date = dates[i];
+        if (date.length == 11) {
+            let month = month_numbers[Number(date.slice(0, date.indexOf("/"))) - 1];
+            let day = date.slice(date.indexOf("/") + 1, date.lastIndexOf("/"));
+            let year = date.slice(date.lastIndexOf("/") + 1, date.indexOf(" "));
+            
+            // Remove 0 from day
+            if (day.length > 1) { day = day[1] }
+            
+            let formatted_date = `${month} ${day}, ${year}`;
+            dates[i] = formatted_date;
+        }
     }
-    Alert.alert(String(...output));
     
-    return output;
-}  
+    return dates.reverse();
+}
