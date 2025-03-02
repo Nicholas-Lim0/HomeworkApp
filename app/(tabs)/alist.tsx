@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Button, ScrollView, Alert } from "react-native";
 import { AddButton } from "@/components/AddButton";
 import { AssignmentMenu } from "@/components/AssignmentMenu";
-import { assignments, delete_ass } from "../amaker";
+import { assignments, delete_ass, sort_ass } from "@/variables/assignments";
+import { filter_option } from "@/components/Menu";
 
 const alist = () => {
     const [assState, setAssState] = useState(assignments);

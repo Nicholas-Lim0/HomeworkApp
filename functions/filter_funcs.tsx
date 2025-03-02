@@ -1,6 +1,7 @@
 import React from "react";
+import { Alert } from "react-native";
 
-export default function sort_by_due_date(dates: any) {
+export function sort_by_due_date(dates: any) {
     // 11/12 November 12, 2025
     // Convert alphabetical dates into numerical dates
     let month_numbers = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -97,16 +98,16 @@ export default function sort_by_due_date(dates: any) {
         }
     }
     
-    // *****Numericize alphabetical dates
+    // *****Numericize alphabetical dates******
     for (let i = 0; i < dates.length; i++) {
         let date = dates[i];
         if (date.length == 11) {
             let month = month_numbers[Number(date.slice(0, date.indexOf("/"))) - 1];
             let day = date.slice(date.indexOf("/") + 1, date.lastIndexOf("/"));
-            let year = date.slice(date.lastIndexOf("/") + 1, date.indexOf(" "));
+            let year = date.slice(date.lastIndexOf("/") + 1).trim();
             
             // Remove 0 from day
-            if (day.length > 1) { day = day[1] }
+            if (day[0] == "0") { day = day[1] }
             
             let formatted_date = `${month} ${day}, ${year}`;
             dates[i] = formatted_date;
@@ -114,4 +115,8 @@ export default function sort_by_due_date(dates: any) {
     }
     
     return dates.reverse();
+}
+
+export function sort_by_creation(dates: any) {
+    
 }

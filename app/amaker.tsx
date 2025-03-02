@@ -1,10 +1,10 @@
-import React, { useState, createContext } from "react";
+import React, { useState } from "react";
 import {StyleSheet, View, ScrollView, Text, TextInput, Button, Alert} from "react-native";
 import { Link } from "expo-router";
 import { FormElement, FormDropdown, DateForm } from "@/components/FormElement";
 import { class_list } from "./cmaker";
 import { filter_option } from "@/components/Menu";
-import sort_by_due_date from "@/functions/filter_funcs";
+import { assignments, sort_ass } from "@/variables/assignments";
 
 const amaker = () => {
   const [classes, setClasses] = useState<Array<String>>([]);
@@ -29,7 +29,6 @@ const amaker = () => {
           <Link href="./alist" asChild>
             <Button title="Enter" color="slategrey" onPress={() => {
               // Combine month and day to format date
-              let month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octomber", "November", "December"];
               date = (datetype == "Month Number" ? `${month}/${day}/${year}` : `${month} ${day}, ${year}`);
 
               let new_ass = {
@@ -39,6 +38,7 @@ const amaker = () => {
               };
               
               assignments.push(new_ass);
+              sort_ass(filter_option);
             }}></Button>
           </Link>
         </View>
@@ -97,52 +97,5 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline"
   }
 });
-
-// Exports
-export let assignments: Array<Object> = [];
-
-export function sort_ass(type: any) {
-  let filtered_ass: any = [];
-  let output: any = [];
-
-  if (type == "Creation") {
-    // OH shit
-  } else if (type == "Due Date") {
-    let dates = [];
-
-    for (let i = 0; i < assignments.length; i++) { dates.push(Object.values(assignments[i])[2]) }
-    
-    filtered_ass = sort_by_due_date(dates);
-
-    // Match assignment list to filtered list
-    for (let i = 0; i < filtered_ass.length; i++) {
-      // Find matching date in filtered array
-      for (let j = 0; j < assignments.length; j++) {
-        let date = Object.values(assignments[j])[2];
-        if (date == filtered_ass[i]) {
-          output.push(assignments[j]);
-        }
-      }
-    }
-
-    output.reverse();
-    
-    assignments = output;
-  } else if (type == "Class") {
-    // Sort by class :( ?
-  } else {
-    Alert.alert("ya done did messed up");
-  }
-}
-
-export function reset_ass() {
-  assignments = [];
-}
-
-export const delete_ass = (index: any) => {
-  assignments.splice(index, 1);
-  // It won't work without this for some reason...
-  assignments = Array.of(...assignments);
-}
 
 export default amaker;

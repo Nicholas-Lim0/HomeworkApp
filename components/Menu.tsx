@@ -2,17 +2,24 @@ import React from "react";
 import { StyleSheet, View, Text, Alert, Pressable } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons"
 import SelectDropdown from "react-native-select-dropdown";
-import { reset_ass, sort_ass } from "@/app/amaker";
+import { reset_ass, sort_ass } from "@/variables/assignments";
 import { reset_class } from "@/app/cmaker";
 
-export const Menu = (props: {filter_func: any, delete_func: any}) => {
-    const filter_options = [
-        {title: "Creation", icon: "clock-plus-outline"},
-        {title: "Due Date", icon: "calendar-month"},
-        {title: "Class", icon: "account"}
-    ];
-
+export const Menu = (props: {filter_func: any, delete_func: any, screen: any}) => {
     let delete_word: any;
+    let filter_options: any = [];
+
+    if (props.screen == "alist") {
+        filter_options = [
+            {title: "Due Date", icon: "calendar-month"},
+            {title: "Creation", icon: "clock-plus-outline"},
+        ];
+    } else if (props.screen == "clist") {
+        filter_options = [
+            {title: "Teacher", icon: "alphabetical-variant"},
+            {title: "Period", icon: "numeric"}
+        ]
+    }
 
     if (props.delete_func == reset_ass) { delete_word = "assignments" } 
     else if (props.delete_func == reset_class) { delete_word = "classes" }
@@ -57,6 +64,11 @@ export const Menu = (props: {filter_func: any, delete_func: any}) => {
                 );
             }} 
             />
+            
+            <Pressable>
+                <Icon style={styles.delete} name={"account"} size={30} />
+            </Pressable>
+
             <Pressable onPress={delete_alert}>
                 <Icon style={styles.delete} name={"trash-can-outline"} size={30} />
             </Pressable>
