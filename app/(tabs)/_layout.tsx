@@ -1,7 +1,6 @@
 import { Tabs } from "expo-router";
 import { Button, Text, View } from "react-native";
-import Ionicon from "@expo/vector-icons/Ionicons";
-import Icon from "@expo/vector-icons/FontAwesome5";
+import { Icon } from "@/components/Icon";
 import { Menu } from "@/components/Menu";
 import { reset_ass } from "@/variables/assignments";
 import { reset_class } from "../cmaker";
@@ -12,7 +11,7 @@ const TabsLayout = () => {
             <Tabs.Screen name="alist" options={{ 
                 title: "Assignments", 
                 tabBarIcon: ({color, focused}) => {
-                    return <Ionicon name={focused ? "create" : "create-outline"} color={color} size={25}></Ionicon>
+                    return <Icon source={"IonIcons"} name={focused ? "create" : "create-outline"} color={color} size={25}></Icon>
                 }, 
                 headerRight: () => {
                     return <Menu filter_func={() => {}} delete_func={reset_ass} screen={"alist"} />
@@ -20,14 +19,14 @@ const TabsLayout = () => {
             }} 
             />
             <Tabs.Screen name="clist" options={{title: "Classes", tabBarIcon: ({color}) => {
-                return <Icon name={"chalkboard-teacher"} color={color} size={20}></Icon>
+                return <Icon source={"FontAwesome5"} name={"chalkboard-teacher"} color={color} size={20}></Icon>
             },
             headerRight: () => {
                 return <Menu filter_func={() => {}} delete_func={reset_class} screen={"clist"} />
             }
             }} />
             <Tabs.Screen name="settings" options={{title: "Settings", tabBarIcon: ({color, focused}) => {
-                return <Ionicon name={focused ? "settings-sharp" : "settings-outline"} color={color} size={25}></Ionicon>
+                return <Icon source={"IonIcons"} name={focused ? "settings-sharp" : "settings-outline"} color={color} size={25}></Icon>
             }}} />
         </Tabs>
     );

@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Text, Alert, Pressable } from "react-native";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons"
 import SelectDropdown from "react-native-select-dropdown";
 import { reset_ass, sort_ass } from "@/variables/assignments";
 import { reset_class } from "@/app/cmaker";
+import { Icon } from "./Icon";
 
 export const Menu = (props: {filter_func: any, delete_func: any, screen: any}) => {
     let delete_word: any;
@@ -51,7 +51,7 @@ export const Menu = (props: {filter_func: any, delete_func: any, screen: any}) =
             renderButton={() => {
                 return(
                     <>
-                        <Icon style={styles.filter} name={"filter-outline"} size={30} />
+                        <Icon source={"MaterialCommunityIcons"} style={styles.filter} name={"filter-outline"} size={30} />
                     </>
                 );
             }}
@@ -59,18 +59,18 @@ export const Menu = (props: {filter_func: any, delete_func: any, screen: any}) =
                 return(
                     <View style={selected ? {...styles.dropdown_item, backgroundColor: "lightgrey"} : styles.dropdown_item}>
                         <Text style={styles.dropdown_text}> {item.title} </Text>
-                        <Icon style={styles.dropdown_icon} name={item.icon} size={20} />
+                        <Icon source={"MaterialCommunityIcons"} style={styles.dropdown_icon} name={item.icon} size={20} />
                     </View>
                 );
             }} 
             />
             
             <Pressable>
-                <Icon style={props.screen == "alist" ? styles.delete : {display: "none"}} name={"account"} size={30}  />
+                <Icon source={"MaterialCommunityIcons"} style={props.screen == "alist" ? styles.delete : {display: "none"}} name={"account"} size={30}  />
             </Pressable>
 
             <Pressable onPress={delete_alert}>
-                <Icon style={styles.delete} name={"trash-can-outline"} size={30} />
+                <Icon source={"MaterialCommunityIcons"} style={styles.delete} name={"trash-can-outline"} size={30} />
             </Pressable>
         </View>
     )
