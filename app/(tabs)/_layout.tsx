@@ -26,8 +26,8 @@ const TabsLayout = () => {
                 return <Menu filter_func={() => {}} delete_func={reset_class} screen={"clist"} />
             }
             }} />
-            <Tabs.Screen name="study" options={{title: "Study", tabBarIcon: ({color, focused}) => {
-                return <Ionicon name={focused ? "book" : "book-outline"} color={color} size={25}></Ionicon>
+            <Tabs.Screen name="settings" options={{title: "Settings", tabBarIcon: ({color, focused}) => {
+                return <Ionicon name={focused ? "settings-sharp" : "settings-outline"} color={color} size={25}></Ionicon>
             }}} />
         </Tabs>
     );

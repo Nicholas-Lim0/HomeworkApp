@@ -1,6 +1,3 @@
-import React from "react";
-import { Alert } from "react-native";
-
 export function sort_by_due_date(dates: any) {
     // 11/12 November 12, 2025
     // Convert alphabetical dates into numerical dates
@@ -115,8 +112,4 @@ export function sort_by_due_date(dates: any) {
     }
     
     return dates.reverse();
-}
-
-export function sort_by_creation(dates: any) {
-    
 }

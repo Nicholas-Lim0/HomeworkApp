@@ -2,13 +2,13 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { AddButton } from "@/components/AddButton";
 
-const study = () => {
+const settings = () => {
     return(
         <View style={styles.scr_container}><ScrollView>
                 <View>
                   <View style={styles.fill_container}>
-                    <Text style={styles.fill_text}> No Study Sets </Text>
-                    <Text style={styles.sub_fill_text}> To create a study set, click the "+" button </Text>
+                    <Text style={styles.fill_text}> Settings </Text>
+                    <Text style={styles.sub_fill_text}> Settings and stuff </Text>
                  </View>
                 </View>
             </ScrollView>
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default study;
+export default settings;

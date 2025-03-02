@@ -6,6 +6,9 @@ import { class_list } from "./cmaker";
 import { filter_option } from "@/components/Menu";
 import { assignments, sort_ass } from "@/variables/assignments";
 
+// Var to keep track of creation order
+let num = 0;
+
 const amaker = () => {
   const [classes, setClasses] = useState<Array<String>>([]);
   setInterval(() => setClasses(class_list), 50);
@@ -30,11 +33,13 @@ const amaker = () => {
             <Button title="Enter" color="slategrey" onPress={() => {
               // Combine month and day to format date
               date = (datetype == "Month Number" ? `${month}/${day}/${year}` : `${month} ${day}, ${year}`);
-
+              num++;
+              
               let new_ass = {
                 a_name: name,
                 a_class: aclass,
-                a_date: date
+                a_date: date,
+                order: num,
               };
               
               assignments.push(new_ass);

@@ -9,10 +9,10 @@ export function sort_ass(type: any) {
   let filtered_ass: any = [];
   let output: any = [];
 
-  if (type == "Creation") {
-    // OH shit
-  } else if (type == "Due Date") {
-    let dates = [];
+  if (type == "Due Date") {
+    // Sort assignments by due date
+
+    let dates: Array<Object> = [];
 
     for (let i = 0; i < assignments.length; i++) { dates.push(Object.values(assignments[i])[2]) }
     
@@ -30,10 +30,30 @@ export function sort_ass(type: any) {
     }
 
     output.reverse();
-    
-    assignments = output;
+  } else if (type == "Creation") {
+    // Sort assignments by creation order
+
+    // Get creation order and sort it ascending
+    let orders = [];
+    for (let i = 0; i < assignments.length; i++) { orders.push(Object.values(assignments[i])[3]) }
+    orders.sort((a: any, b: any) => a - b);
+
+    for (let i = 0; i < orders.length; i++) {
+        for (let j = 0; j < assignments.length; j++) {
+            let ass_order = Object.values(assignments[j])[3];
+            if (ass_order == orders[i]) {
+                output.push(assignments[j]);
+            }
+        }
+    }
+
   } else {
     Alert.alert("ya done did messed up");
+  }
+
+  // Make assignments sorted
+  if (output) {
+    assignments = output;
   }
 }
 

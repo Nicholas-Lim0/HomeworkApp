@@ -66,7 +66,7 @@ export const Menu = (props: {filter_func: any, delete_func: any, screen: any}) =
             />
             
             <Pressable>
-                <Icon style={styles.delete} name={"account"} size={30} />
+                <Icon style={props.screen == "alist" ? styles.delete : {display: "none"}} name={"account"} size={30}  />
             </Pressable>
 
             <Pressable onPress={delete_alert}>
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export let filter_option = "Creation";
+export let filter_option = "Due Date";
