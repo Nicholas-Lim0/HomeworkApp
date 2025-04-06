@@ -66,7 +66,7 @@ export const Menu = (props: {filter_func: any, delete_func: any, screen: any}) =
             />
             
             <Pressable>
-                <Icon source={"MaterialCommunityIcons"} style={props.screen == "alist" ? styles.delete : {display: "none"}} name={"account"} size={30}  />
+                <Icon source={"FontAwesome5"} style={props.screen == "alist" ? {marginTop: 16, marginRight: 12} : {display: "none"}} name={"chalkboard-teacher"} size={24}  />
             </Pressable>
 
             <Pressable onPress={delete_alert}>

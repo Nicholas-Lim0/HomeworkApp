@@ -1,11 +1,31 @@
 import React from "react";
 import { Alert } from "react-native";
 import { sort_by_due_date } from "@/functions/filter_funcs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Exports
 export let assignments: Array<Object> = [];
 
 export function sort_ass(type: any) {
+  const storeData = async (value: any, name: string) => {
+    // Check if value is object or string
+    if (typeof(value) == "object") {
+      try {
+        const jsonValue = JSON.stringify(value);
+        await AsyncStorage.setItem(name, jsonValue);
+      } catch(e: any) {
+        Alert.alert(e);
+      }
+    } else {
+      try {
+        await AsyncStorage.setItem(name, value);
+      } catch(e: any) {
+        Alert.alert(e);
+      }
+    }
+  }
+
+
   let filtered_ass: any = [];
   let output: any = [];
 
